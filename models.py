@@ -323,7 +323,7 @@ class Testing_Procedure(models.Model):
 class Merch_Requirement(models.Model):
     requirement = models.ForeignKey(Requirement)
     merch_req_num = models.CharField(max_length=10, blank=True, null=True)
-#    merch_req_saq = models.CharField(max_length=4, blank=True, null=True)
+    merch_req_saq = models.CharField(max_length=4, blank=True, null=True)
     merch_req_num_col1 = models.IntegerField(blank=True, null=True)
     merch_req_num_col2 = models.IntegerField(blank=True, null=True)
     merch_req_num_col3 = models.IntegerField(blank=True, null=True)
@@ -351,15 +351,15 @@ class Merch_Requirement(models.Model):
                                           choices=req_status_choices,
                                           default=status_not_in_place)
 
-    saq_req = models.ForeignKey(SAQ, blank=True, null=True)
+#    saq_req = models.ForeignKey(SAQ, blank=True, null=True)
 
 
     merchant = models.ForeignKey(Merchant)
 
     def save(self, *args, **kwargs):
         self.merch_req_num = self.requirement.req_number
-#        self.merch_req_saq = self.requirement.saq_req
-        self.saq_req = self.requirement.saq_req
+        self.merch_req_saq = self.requirement.saq_req
+#        self.saq_req = self.requirement.saq_req
         self.merch_req_num_col1 = self.requirement.req_num_col1
         self.merch_req_num_col2 = self.requirement.req_num_col2
         self.merch_req_num_col3 = self.requirement.req_num_col3
