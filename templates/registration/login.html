@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class="container">
+
+    <form class="form-signin" method="post" action="{% url 'django.contrib.auth.views.login' %}">
+        {% csrf_token %}
+        {% if form.errors %}
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <p>Your username and password didn't match. Please try again.</p>
+        {% else %}
+        <h2 class="form-signin-heading">Please sign in</h2>
+        {% endif %}
+        <label for="id_username" class="sr-only">Username:</label>
+        <input id="id_username" maxlength="254" name="username" type="text" class="form-control" placeholder="Username" />
+        <label for="id_password" class="sr-only">Password</label>
+        <input id="id_password" name="password" type="password" class="form-control" placeholder="Password" />
+        <button class="btn btn-lg btn-primary btn-block" type="submit" value="login" >Sign in</button>
+        <input type="hidden" name="next" value="{{ next }}" />
+    </form>
+</div> <!-- /container -->
+
+
+{% endblock %}

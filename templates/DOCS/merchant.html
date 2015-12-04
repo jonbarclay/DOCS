@@ -1,0 +1,221 @@
+{% extends "DOCS/base.html" %}
+{% load DOCS_extras %}
+
+
+{% block title %}PCI DOCS{% endblock %}
+        {% block sidebar %}
+
+            <h4>Campus Merchants</h4>
+
+
+            <ul class="nav nav-sidebar">
+
+            {% nav_merchantlist %}
+          </ul>
+
+        {% endblock %}
+{% block header %}{{ merchant }} <div class="pull-right">SAQ  {{ merchant.saq_req }} </div>{% endblock %}
+
+{% block content %}
+<div class="progress">
+{% if merchant.merch_percent <= 40 %}  
+  <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="{{ merchant.merch_percent }}" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: {{ merchant.merch_percent }}%">
+{% elif merchant.merch_percent <= 80 %}
+  <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" aria-valuenow="{{ merchant.merch_percent }}" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: {{ merchant.merch_percent }}%">
+{% elif merchant.merch_percent > 80 %}
+  <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="{{ merchant.merch_percent }}" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: {{ merchant.merch_percent }}%">
+{% endif %}
+    {{ merchant.merch_percent|floatformat:"0" }}%
+    <span class="sr-only">{{ merchant.merch_percent }}% Complete</span>
+  </div>
+</div>
+
+{% if merchant.merchant_card_processing_description %}
+    <div class="panel panel-success">
+        <div class="panel-heading"> <strong> Description of how and why {{ merchant.merchant_name }} stores, processes, and/or transmits cardholder </strong></div>
+        <div class="panel-body">
+            <p>{{ merchant.merchant_card_processing_description }}</p>
+            <br/>
+        </div>
+    </div>
+{% endif %}
+
+
+<div class="list-group">
+{% for merch_requirement in merchant.merch_requirement_set.all %}
+    {% if merch_requirement.requirement.parent_req = None %}
+            {% if merch_requirement.req_status = 'Not In Place' %}
+               <a href="./{{ merch_requirement.requirement.version }}/{{ merch_requirement.requirement.saq_req }}/{{ merch_requirement.requirement.req_number }}/" class="list-group-item list-group-item-danger">{{ merch_requirement.requirement.req_number }} {{ merch_requirement.requirement.req_text }} <span class="badge">{{ merch_requirement.merch_req_chi_status }} / {{ merch_requirement.merch_req_descendants }}</span></a>
+            {% elif merch_requirement.req_status = 'In Progress' %}
+               <a href="./{{ merch_requirement.requirement.version }}/{{ merch_requirement.requirement.saq_req }}/{{ merch_requirement.requirement.req_number }}/" class="list-group-item list-group-item-warning">{{ merch_requirement.requirement.req_number }} {{ merch_requirement.requirement.req_text }} <span class="badge">{{ merch_requirement.merch_req_chi_status }} / {{ merch_requirement.merch_req_descendants }}</span></a>
+            {% elif merch_requirement.req_status = 'In Place' %}
+               <a href="./{{ merch_requirement.requirement.version }}/{{ merch_requirement.requirement.saq_req }}/{{ merch_requirement.requirement.req_number }}/" class="list-group-item list-group-item-success">{{ merch_requirement.requirement.req_number }} {{ merch_requirement.requirement.req_text }} <span class="badge">{{ merch_requirement.merch_req_chi_status }} / {{ merch_requirement.merch_req_descendants }}</span></a>
+            
+            {% endif %}
+    {% endif %}
+
+{% endfor %}
+     
+
+</div>
+
+
+    <div class="panel panel-success">
+        <div class="panel-heading"> <strong>{{ merchant.merchant_name }} Information:</strong> </div>
+        <div class="panel-body">
+            {% if merchant.merchant_contact_name %}
+                <p>Primary Contact Name: {{ merchant.merchant_contact_name }}</p>
+            {% endif %}
+            {% if merchant.merchant_contact_email %}
+                <p>Primary Contact Email: {{ merchant.merchant_contact_email }}</p>
+            {% endif %}
+            {% if merchant.merchant_URL %}
+                <p>Website: {{ merchant.merchant_URL }}</p>
+            {% endif %}
+        </div>
+    </div>
+
+{% if merchant.merchant_business_description %}
+    <div class="panel panel-success">
+        <div class="panel-heading"> <strong>{{ merchant.merchant_name }} Description:</strong> </div>
+        <div class="panel-body">
+            <h4>Description of the nature of the merchant’s business (what kind of work they do, etc.):</h4>
+            <p> {{ merchant.merchant_business_description }}</p>
+            <br/>
+
+            {% if merchant.merchant_payment_channels %}
+                <h4>Types of payment channels the entity serves, such as card-present and
+        card-not-present (for example, mail order/telephone order (MOTO), e-
+        commerce).</h4>
+                <p>{{ merchant.merchant_payment_channels }}</p>
+                <br/>
+            {% endif %}
+            {% if merchant.merchant_third_parties %}
+                <h4>Entities that the assessed entity connects to for payment transmission or
+processing, including processor relationships.</h4>
+                <p>{{ merchant.merchant_third_parties }}</p>
+                <br/>
+            {% endif %}
+            {% if merchant.merchant_network_diagram %}
+                <h4>High-level network diagram</h4>
+                <p><a href="{{ merchant.merchant_network_diagram.url }}">Network Diagram</a></p>
+                <br/><br/>
+            {% endif %}
+            {% if merchant.merchant_process_identify_data %}
+                <h4>Description of the methods or processes (for example, tools, observations,
+feedback, scans, data flow analysis) used to identify and document all
+existences of cardholder data (as executed by the assessor, assessed entity
+or a combination):</h4>
+                <p>{{ merchant.merchant_process_identify_data }}</p>
+                <br/>
+            {% endif %}
+            {% if merchant.merchant_process_no_data_outside_cde %}
+                <h4>Description of the methods or processes (for example, tools, observations,
+feedback, scans, data flow analysis) used to verify that no cardholder data
+exists outside of the defined CDE (as executed by the assessor, assessed
+entity or a combination):</h4>
+                <p>{{ merchant.merchant_process_no_data_outside_cde }}</p>
+                <br/><br/>
+            {% endif %}
+            {% if merchant.scope_review_process %}
+                <h4>Description of how and why the merchant stores, processes, and/or transmits cardholder</h4>
+                <p>{{ merchant.scope_review_process }}</p>
+                <br/>
+            {% endif %}
+            {% if merchant.merchant_scope_documentation %}
+                <h4>Description of how and why the merchant stores, processes, and/or transmits cardholder</h4>
+                <p>{{ merchant.merchant_scope_documentation }}</p>
+                <br/>
+            {% endif %}
+            {% if merchant.merchant_scope_reasoning %}
+                <h4>Description of how and why the merchant stores, processes, and/or transmits cardholder</h4>
+                <p>{{ merchant.merchant_scope_reasoning }}</p>
+                <br/>
+            {% endif %}
+            {% if merchant.merchant_cde_people %}
+                <h4>Description of how and why the merchant stores, processes, and/or transmits cardholder</h4>
+                <p>{{ merchant.merchant_cde_people }}</p>
+                <br/>
+            {% endif %}
+            {% if merchant.merchant_cde_processes %}
+                <h4>Description of how and why the merchant stores, processes, and/or transmits cardholder</h4>
+                <p>{{ merchant.merchant_cde_processes }}</p>
+                <br/><br/>
+            {% endif %}
+            {% if merchant.merchant_cde_technologies %}
+                <h4>Description of how and why the merchant stores, processes, and/or transmits cardholder</h4>
+                <p>{{ merchant.merchant_cde_technologies }}</p>
+                <br/>
+            {% endif %}
+            {% if merchant.merchant_cde_locations %}
+                <h4>Description of how and why the merchant stores, processes, and/or transmits cardholder</h4>
+                <p>{{ merchant.merchant_cde_locations }}</p>
+                <br/><br/>
+            {% endif %}
+            {% if merchant.merchant_network_segmentation %}
+                <h4>Description of how and why the merchant stores, processes, and/or transmits cardholder</h4>
+                <p>{{ merchant.merchant_network_segmentation }}</p>
+                <br/>
+            {% endif %}
+            {% if merchant.merchant_cde_networks %}
+                <h4>Description of how and why the merchant stores, processes, and/or transmits cardholder</h4>
+                <p>{{ merchant.merchant_cde_networks }}</p>
+                <br/>
+            {% endif %}
+            {% if merchant.merchant_in_scope_networks %}
+                <h4>Description of how and why the merchant stores, processes, and/or transmits cardholder</h4>
+                <p>{{ merchant.merchant_in_scope_networks }}</p>
+                <br/>
+            {% endif %}
+            {% if merchant.merchant_out_of_scope_networks %}
+                <h4>Description of how and why the merchant stores, processes, and/or transmits cardholder</h4>
+                <p>{{ merchant.merchant_out_of_scope_networks }}</p>
+                <br/>
+            {% endif %}
+            {% if merchant.merchant_processing_entities %}
+                <h4>Description of how and why the merchant stores, processes, and/or transmits cardholder</h4>
+                <p>{{ merchant.merchant_processing_entities }}</p>
+                <br/><br/>
+            {% endif %}
+            {% if merchant.merchant_wireless %}
+                <h4>Description of how and why the merchant stores, processes, and/or transmits cardholder</h4>
+                <p>{{ merchant.merchant_wireless }}</p>
+                <br/>
+            {% endif %}
+            {% if merchant.merchant_data_flow_authorization %}
+                <h4>Description of how and why the merchant stores, processes, and/or transmits cardholder</h4>
+                <p>{{ merchant.merchant_data_flow_authorization }}</p>
+                <br/><br/>
+            {% endif %}
+            {% if merchant.merchant_data_flow_capture %}
+                <h4>Description of how and why the merchant stores, processes, and/or transmits cardholder</h4>
+                <p>{{ merchant.merchant_data_flow_capture }}</p>
+                <br/>
+            {% endif %}
+            {% if merchant.merchant_data_flow_settlement %}
+                <h4>Description of how and why the merchant stores, processes, and/or transmits cardholder</h4>
+                <p>{{ merchant.merchant_data_flow_settlement }}</p>
+                <br/>
+            {% endif %}
+            {% if merchant.merchant_data_flow_chargeback %}
+                <h4>Description of how and why the merchant stores, processes, and/or transmits cardholder</h4>
+                <p>{{ merchant.merchant_data_flow_chargeback }}</p>
+                <br/>
+            {% endif %}
+            {% if merchant.merchant_card_storage %}
+                <h4>Description of how and why the merchant stores, processes, and/or transmits cardholder</h4>
+                <p>{{ merchant.merchant_card_storage }}</p>
+                <br/>
+            {% endif %}
+            {% if merchant.merchant_sampling %}
+                <h4>Description of how and why the merchant stores, processes, and/or transmits cardholder</h4>
+                <p>{{ merchant.merchant_sampling }}</p>
+                <br/><br/>
+            {% endif %}
+        </div>
+    </div>
+
+{% endif %}
+
+
+{% endblock %}

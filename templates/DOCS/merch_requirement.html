@@ -1,0 +1,157 @@
+{% extends "DOCS/base.html" %}
+{% load DOCS_extras %}
+
+
+{% block title %}PCI DOCS{% endblock %}
+        {% block sidebar %}
+            <ul class="nav nav-sidebar">
+             <li><a href="/">Campus Merchants:</a></li>
+            {% nav_merchantlist %}
+          </ul>
+
+        {% endblock %}
+{% block header %}{{ merchant }}{% endblock %}
+
+{% block content %}
+{% if requirement.parent_req = None %}
+<ol class="breadcrumb">
+  <li><a href="/merchant/{{ merchant }}/">{{ merchant }}</a></li>   
+</ol>
+{% elif requirement.parent_req.parent_req.req_number%}
+<ol class="breadcrumb">
+  <li><a href="/merchant/{{ merchant }}/">{{ merchant }}</a></li>
+  <li><a href="../{{ requirement.parent_req.parent_req.req_number }}/">{{ requirement.parent_req.parent_req.req_number }}</a></li> 
+  <li><a href="../{{ requirement.parent_req.req_number }}/">{{ requirement.parent_req.req_number }}</a></li>
+</ol>
+{% else %}
+<ol class="breadcrumb">
+  <li><a href="/merchant/{{ merchant }}/">{{ merchant }}</a></li>   
+  <li><a href="../{{ requirement.parent_req.req_number }}/">{{ requirement.parent_req.req_number }}</a></li>
+</ol>
+{% endif %}
+<h3>{{ requirement.req_name_number|safe }} </h3>
+{% if requirement.req_status = 'Not In Place' %}
+    <div class="alert alert-danger" role="alert">
+             <strong>{{ requirement.req_status }} </strong>
+    </div>
+{% elif requirement.req_status  = 'In Place' %}
+    <div class="alert alert-success" role="alert">
+             <strong>{{ requirement.req_status }} </strong>
+    </div>
+{% elif requirement.req_status  = 'In Progress' %}
+    <div class="alert alert-warning" role="alert">
+             <strong>{{ requirement.req_status }} </strong>
+    </div>
+{% elif requirement.req_status  = 'Not Applicable' %}
+    <div class="alert alert-info" role="alert">
+             <strong>{{ requirement.req_status }} </strong>
+    </div>
+{% endif %}
+
+{% if requirement.req_note  %}
+     <div class="well">
+     
+              {{ requirement.req_note|safe }}
+     </div>
+{% endif %}
+{% if requirement.guidance_text  %}
+     <div class="well">
+     
+              {{ requirement.guidance_text|safe }}
+     </div>
+{% endif %}
+{% if requirement.req_test_summ  %}
+     <div class="well">
+
+              {{ requirement.req_test_summ|safe }}
+     </div>
+{% endif %}
+
+{% for child_req in requirement.child_req.all %}
+      {% if child_req.merchant = merchant %}
+            {% if child_req.req_status = 'Not In Place' %}
+               <a href="../{{ child_req.req_number }}/" class="list-group-item list-group-item-danger">{{ child_req.req_name_number|safe }} </a>
+            {% elif child_req.req_status = 'In Progress' %}
+               <a href="../{{ child_req.req_number }}/" class="list-group-item list-group-item-warning">{{ child_req.req_name_number|safe }} </a>
+            {% elif child_req.req_status = 'In Place' %}
+               <a href="../{{ child_req.req_number }}/" class="list-group-item list-group-item-success">{{ child_req.req_name_number|safe }} </a>
+            {% elif child_req.req_status = 'Not Applicable' %}
+               <a href="../{{ child_req.req_number }}/" class="list-group-item list-group-item-info">{{ child_req.req_name_number|safe }} </a>
+            {% endif %}
+      {% endif %}
+      
+{% endfor %}
+<div class="row"><p></p></div>
+{% for testing_procedure in requirement.testing_procedure_set.all %}
+     <div class="row">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+               {{ testing_procedure|safe }}
+            
+            </div>
+            <div class="panel-body">
+             
+                {{ testing_procedure.rep_inst_text|safe }}
+            
+            </div>
+            
+
+             
+        </div>
+        
+      </div>
+{% endfor %}
+{% if requirement.testing_procedure_set.all  %}
+    
+         <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                   Findings:
+            </div>
+            <div class="panel-body">
+             <form action="./" method="post" class="form-horizontal">
+                 {% csrf_token %}
+                 {{ form.non_field_errors }}
+                 {{ form.non_field_errors }}
+                 <div class="form-group">
+                    {{ form.finding_text.errors }}
+                    <label for="{{ form.finding_text.id_for_label }}" class="col-sm-2 control-label">Finding Text:</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control" id="{{ form.finding_text.id_for_label }}" name="finding_text" rows="3"></textarea>
+                        </div>
+                 </div>
+                 <div class="form-group">
+                    {{ form.status.errors }}
+                    <label for="{{ form.status.id_for_label }}" class="col-sm-2 control-label">Status:</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" id="{{ form.status.id_for_label }}" name="status">
+                        <option value="Not In Place">Not In Place</option>
+                        <option value="In Place">In Place</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Not Applicable">Not Applicable</option>
+                        </select>
+                    </div>
+                 </div>
+                 <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-default" value="Submit" />Submit</button>
+                    </div>
+                 </div>
+             </form>
+            {% for finding in requirement.finding_set.all|dictsortreversed:"finding_date"|slice:"3" %}
+            <ul class=list-group>
+              <li class=list-group-item>
+                  {{ finding }} ----  {{ finding.finding_date }} 
+              </li>  
+             </ul>
+            {% endfor %}
+            </div>
+        </div>
+        
+      </div> 
+    
+    
+{% endif %}
+
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "DOCS/base.html" %}
+{% load DOCS_extras %}
+
+
+{% block title %}PCI DOCS{% endblock %}
+        {% block sidebar %}
+            <ul class="nav nav-sidebar">
+             <li><a href="/">Merchants: </a></li>
+            {% nav_merchantlist %}
+          </ul>
+
+        {% endblock %}
+{% block header %}PCI Requirements{% endblock %}
+
+{% block content %}
+    <ul>
+        {% for requirement in object_list %}
+            <li>{{ requirement }}</li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

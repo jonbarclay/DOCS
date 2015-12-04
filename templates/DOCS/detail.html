@@ -1,0 +1,43 @@
+<h1>{{ requirement }}</h1>
+<h1>{{ saqrequirement }}</h1>
+<ul>
+<ul>
+
+    {{ requirement }}
+    {% for testing_procedure in requirement.testing_procedure_set.all %}
+        <li>
+            {{ testing_procedure }}
+            {% for testing_sub_procedure in testing_procedure.testing_sub_procedure_set.all %}
+            <ul>
+                <li>
+                {{ testing_sub_procedure }}
+                </li>
+            </ul>
+            {% endfor %}
+        </li>
+            <p>
+            {% for reporting_instruction in testing_procedure.reporting_instruction_set.all %}
+            <ul>
+                <li>
+                {{ reporting_instruction }}
+                    {% for reporting_sub_instruction in reporting_instruction.reporting_sub_instruction_set.all %}
+                 <ul>
+                    <li>
+                    {{ reporting_sub_instruction }}
+                    </li>
+                </ul>
+                    {% endfor %}
+                </li>
+            </ul>
+            {% endfor %}
+            </p>
+        </li>
+    
+    
+        {% for guidance in requirement.guidance_set.all %}
+            <p>
+                {{ guidance }}
+            </p>
+        {% endfor %}
+    </ul>
+    {% endfor %}
