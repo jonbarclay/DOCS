@@ -9,6 +9,10 @@ class SAQ(models.Model):
     saq_risk = models.IntegerField(blank=True, null=True, default=0)
     saq_description = models.TextField(blank=True, null=True)
 
+    def saq_name_version(self):
+
+        return self.saq_version + " " + self.saq_name
+
     def __str__(self):
         return self.saq_name
 
