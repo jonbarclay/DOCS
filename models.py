@@ -251,9 +251,7 @@ class Requirement(models.Model):
         else:
             self.req_num_col1 = 0
 
-
         super(Requirement, self).save(*args, **kwargs) # Call the "real" save() method.
-
 
     def req_name_number(self):
 
@@ -268,8 +266,6 @@ class Requirement(models.Model):
                     "req_num_col2", "req_num_col3", "req_num_col4", "req_number"]
 
 
-
-
 class Testing_Procedure(models.Model):
     requirement = models.ForeignKey(Requirement)
     test_number = models.CharField(max_length=10)
@@ -282,7 +278,6 @@ class Testing_Procedure(models.Model):
 
     def __str__(self):
         return self.test_number + " " + self.test_text
-
 
     def save(self, *args, **kwargs):
         test_num_list = self.test_number.split('.')
@@ -323,6 +318,7 @@ class Testing_Procedure(models.Model):
 
     class Meta:
         ordering = ["test_num_col1", "test_num_col2", "test_num_col3", "test_num_col4", "test_number"]
+
 
 class Merch_Requirement(models.Model):
     requirement = models.ForeignKey(Requirement)
