@@ -70,7 +70,7 @@ class Merchant(models.Model):
 #    saq_req =models.CharField(max_length=4,
 #                            choices=saq_choices,
 #                            default=saq_d)
-    saq_required = models.ForeignKey(SAQ, blank=True, null=True)
+    saq_req = models.ForeignKey(SAQ, blank=True, null=True)
 
     def __str__(self):
         return self.merchant_name
