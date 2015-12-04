@@ -13,7 +13,7 @@ class Command(BaseCommand):
             r.save()
         for mr in Merch_Requirement.objects.all():
             print(mr)
-            s = SAQ.objects.get(saq_name=r.merch_req_saq, saq_version='3.1')
+            s = SAQ.objects.get(saq_name=mr.merch_req_saq, saq_version='3.1')
             print(s)
             mr.saq_required = s
             mr.save()
