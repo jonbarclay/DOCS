@@ -39,8 +39,8 @@ class Testing_ProcedureInline(admin.TabularInline):
 
 
 class RequirementAdmin(admin.ModelAdmin):
-    list_display = ('version', 'saq_req', 'req_number', 'req_text')
-    list_filter = ['version', 'saq_req']
+    list_display = ('version', 'saq_required', 'req_number', 'req_text')
+    list_filter = ['version', 'saq_required']
     exclude = ("req_num_col1", "req_num_col2", "req_num_col3", "req_num_col4",)
     inlines = [Testing_ProcedureInline]
 
