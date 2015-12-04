@@ -2,6 +2,7 @@ from django.db import models
 from datetime import datetime, timedelta
 from django.forms import ModelForm
 
+
 class SAQ(models.Model):
     saq_name = models.CharField(max_length=200)
     saq_version = models.CharField(max_length=200)
@@ -116,6 +117,7 @@ class ServiceProvider(models.Model):
     def __str__(self):
         return self.service_provider_name
 
+
 class PaymentApplication(models.Model):
     payment_application_name = models.CharField(max_length=200)
     payment_application_vendor = models.CharField(max_length=200, blank=True, null=True)
@@ -130,6 +132,7 @@ class PaymentApplication(models.Model):
 
     def __str__(self):
         return self.payment_application_name
+
 
 class PaymentChannel(models.Model):
     payment_channel_type = models.CharField(max_length=200)
@@ -173,28 +176,28 @@ class Requirement(models.Model):
                                           default=annually)
     expire_days = models.IntegerField(blank=True, null=True)
 
-    saq_a = 'A'
-    saq_aep = 'A-EP'
-    saq_b = 'B'
-    saq_c = 'C'
-    saq_cvt = 'C-VT'
-    saq_d = 'D'
-    saq_p2pe = 'P2PE'
+#    saq_a = 'A'
+#    saq_aep = 'A-EP'
+#    saq_b = 'B'
+#    saq_c = 'C'
+#    saq_cvt = 'C-VT'
+#    saq_d = 'D'
+#    saq_p2pe = 'P2PE'
+#
+#    saq_choices = (
+#        (saq_a, 'SAQ A'),
+#        (saq_aep, 'SAQ A-EP'),
+#        (saq_b, 'SAQ B'),
+#        (saq_c, 'SAQ C'),
+#        (saq_cvt, 'SAQ C-VT'),
+#        (saq_d, 'SAQ D'),
+#        (saq_p2pe, 'SAQ P2PE'),
+#    )
+#    saq_req =models.CharField(max_length=4,
+#                            choices=saq_choices,
+#                            default=saq_d)
 
-    saq_choices = (
-        (saq_a, 'SAQ A'),
-        (saq_aep, 'SAQ A-EP'),
-        (saq_b, 'SAQ B'),
-        (saq_c, 'SAQ C'),
-        (saq_cvt, 'SAQ C-VT'),
-        (saq_d, 'SAQ D'),
-        (saq_p2pe, 'SAQ P2PE'),
-    )
-    saq_req =models.CharField(max_length=4,
-                            choices=saq_choices,
-                            default=saq_d)
-
-    saq_required = models.ForeignKey(SAQ, blank=True, null=True)
+    saq_req = models.ForeignKey(SAQ, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         rnum = self.req_number
@@ -324,7 +327,7 @@ class Testing_Procedure(models.Model):
 class Merch_Requirement(models.Model):
     requirement = models.ForeignKey(Requirement)
     merch_req_num = models.CharField(max_length=10, blank=True, null=True)
-    merch_req_saq = models.CharField(max_length=4, blank=True, null=True)
+#    merch_req_saq = models.CharField(max_length=4, blank=True, null=True)
     merch_req_num_col1 = models.IntegerField(blank=True, null=True)
     merch_req_num_col2 = models.IntegerField(blank=True, null=True)
     merch_req_num_col3 = models.IntegerField(blank=True, null=True)
@@ -352,14 +355,15 @@ class Merch_Requirement(models.Model):
                                           choices=req_status_choices,
                                           default=status_not_in_place)
 
-    saq_required = models.ForeignKey(SAQ, blank=True, null=True)
+    saq_req = models.ForeignKey(SAQ, blank=True, null=True)
 
 
     merchant = models.ForeignKey(Merchant)
 
     def save(self, *args, **kwargs):
         self.merch_req_num = self.requirement.req_number
-        self.merch_req_saq = self.requirement.saq_req
+#        self.merch_req_saq = self.requirement.saq_req
+        self.saq_req = self.requirement.saq_req
         self.merch_req_num_col1 = self.requirement.req_num_col1
         self.merch_req_num_col2 = self.requirement.req_num_col2
         self.merch_req_num_col3 = self.requirement.req_num_col3
