@@ -258,7 +258,7 @@ class Requirement(models.Model):
         return self.req_number + " " + self.req_text
 
     def __str__(self):
-        return self.version + " " + self.saq_req + " " + self.req_number
+        return self.version + " " + self.saq_req.saq_name + " " + self.req_number
 
     class Meta:
         ordering = ["version", "saq_req",
