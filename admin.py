@@ -46,7 +46,7 @@ class RequirementAdmin(admin.ModelAdmin):
 
 class Merch_RequirementAdmin(admin.ModelAdmin):
     list_display = ('merchant', 'requirement')
-    list_filter = ['merchant', 'merch_req_saq']
+    list_filter = ['merchant', 'req_saq']
     exclude = ("merch_req_num_col1", "merch_req_num_col2", "merch_req_num_col3", "merch_req_num_col4",)
 
 
