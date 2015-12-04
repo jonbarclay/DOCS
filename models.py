@@ -10,7 +10,7 @@ class SAQ(models.Model):
     saq_description = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return self.saq_version + " " + self.saq_name
+        return self.saq_name
 
 
 class Merchant(models.Model):
