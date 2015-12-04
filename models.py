@@ -261,7 +261,7 @@ class Requirement(models.Model):
         return self.version + " " + self.saq_req + " " + self.req_number
 
     class Meta:
-        ordering = ["version", "saq_req",
+        ordering = ["version", "saq_required",
                     "req_num_col1",
                     "req_num_col2", "req_num_col3", "req_num_col4", "req_number"]
 
