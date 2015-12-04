@@ -39,14 +39,14 @@ class Testing_ProcedureInline(admin.TabularInline):
 
 
 class RequirementAdmin(admin.ModelAdmin):
-    list_display = ('version', 'saq_required', 'req_number', 'req_text')
-    list_filter = ['version', 'saq_required']
+    list_display = ('version', 'saq_req', 'req_number', 'req_text')
+    list_filter = ['version', 'saq_req']
     exclude = ("req_num_col1", "req_num_col2", "req_num_col3", "req_num_col4",)
     inlines = [Testing_ProcedureInline]
 
 class Merch_RequirementAdmin(admin.ModelAdmin):
     list_display = ('merchant', 'requirement')
-#    list_filter = ['merchant', 'req_saq']
+    list_filter = ['merchant', 'merch_req_saq']
     exclude = ("merch_req_num_col1", "merch_req_num_col2", "merch_req_num_col3", "merch_req_num_col4",)
 
 
