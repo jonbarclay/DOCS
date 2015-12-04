@@ -11,6 +11,12 @@ class Command(BaseCommand):
             print(s)
             r.saq_required = s
             r.save()
+        for mr in Merch_Requirement.objects.all():
+            print(mr)
+            s = SAQ.objects.get(saq_name=r.merch_req_saq, saq_version='3.1')
+            print(s)
+            mr.saq_required = s
+            mr.save()
 #        for f in Finding.objects.all():
 #            print(f)
 #            f.save()
