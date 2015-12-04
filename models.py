@@ -358,7 +358,7 @@ class Merch_Requirement(models.Model):
 
     def save(self, *args, **kwargs):
         self.merch_req_num = self.requirement.req_number
-        self.merch_req_saq = self.requirement.saq_req
+        self.merch_req_saq = str(self.requirement.saq_req)
 #        self.saq_req = self.requirement.saq_req
         self.merch_req_num_col1 = self.requirement.req_num_col1
         self.merch_req_num_col2 = self.requirement.req_num_col2
