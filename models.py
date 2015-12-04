@@ -70,7 +70,7 @@ class Merchant(models.Model):
 #    saq_req =models.CharField(max_length=4,
 #                            choices=saq_choices,
 #                            default=saq_d)
-    saq_req = models.ForeignKey(SAQ, blank=True, null=True)
+    saq_required = models.ForeignKey(SAQ, blank=True, null=True)
 
     def __str__(self):
         return self.merchant_name
@@ -193,6 +193,8 @@ class Requirement(models.Model):
     saq_req =models.CharField(max_length=4,
                             choices=saq_choices,
                             default=saq_d)
+
+    saq_required = models.ForeignKey(SAQ, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         rnum = self.req_number
@@ -350,6 +352,8 @@ class Merch_Requirement(models.Model):
                                           choices=req_status_choices,
                                           default=status_not_in_place)
 
+    saq_required = models.ForeignKey(SAQ, blank=True, null=True)
+
 
     merchant = models.ForeignKey(Merchant)
 
@@ -444,8 +448,6 @@ class Merch_Requirement(models.Model):
             else:
                 merch_req.req_status = 'Not In Place'
 
-
-
         super(Merch_Requirement, self).save(*args, **kwargs) # Call the "real" save() method.
         if self.requirement.parent_req is not None:
             p = self.requirement.parent_req
@@ -519,7 +521,6 @@ class Merch_Requirement(models.Model):
             "merch_req_num_col2", "merch_req_num_col3", "merch_req_num_col4", "requirement"]
 
 
-
 class Finding(models.Model):
     merch_requirement = models.ForeignKey(Merch_Requirement, blank=True, null=True)
     finding_date = models.DateTimeField('date entered')
@@ -539,7 +540,6 @@ class Finding(models.Model):
             finding_req.completion_date = None
 
         finding_req.save()
-
 
     def __str__(self):
         return self.finding_text
