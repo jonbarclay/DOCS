@@ -45,11 +45,11 @@
 {% for merch_requirement in merchant.merch_requirement_set.all %}
     {% if merch_requirement.requirement.parent_req = None %}
             {% if merch_requirement.req_status = 'Not In Place' %}
-               <a href="./{{ merch_requirement.requirement.version }}/{{ merch_requirement.requirement.saq_req }}/{{ merch_requirement.requirement.req_number }}/" class="list-group-item list-group-item-danger">{{ merch_requirement.requirement.req_number }} {{ merch_requirement.requirement.req_text }} <span class="badge">{{ merch_requirement.merch_req_chi_status }} / {{ merch_requirement.merch_req_descendants }}</span></a>
+               <a href="./{{ merch_requirement.requirement.version }}/{{ merch_requirement.merch_req_saq }}/{{ merch_requirement.requirement.req_number }}/" class="list-group-item list-group-item-danger">{{ merch_requirement.requirement.req_number }} {{ merch_requirement.requirement.req_text }} <span class="badge">{{ merch_requirement.merch_req_chi_status }} / {{ merch_requirement.merch_req_descendants }}</span></a>
             {% elif merch_requirement.req_status = 'In Progress' %}
-               <a href="./{{ merch_requirement.requirement.version }}/{{ merch_requirement.requirement.saq_req }}/{{ merch_requirement.requirement.req_number }}/" class="list-group-item list-group-item-warning">{{ merch_requirement.requirement.req_number }} {{ merch_requirement.requirement.req_text }} <span class="badge">{{ merch_requirement.merch_req_chi_status }} / {{ merch_requirement.merch_req_descendants }}</span></a>
+               <a href="./{{ merch_requirement.requirement.version }}/{{ merch_requirement.merch_req_saq }}/{{ merch_requirement.requirement.req_number }}/" class="list-group-item list-group-item-warning">{{ merch_requirement.requirement.req_number }} {{ merch_requirement.requirement.req_text }} <span class="badge">{{ merch_requirement.merch_req_chi_status }} / {{ merch_requirement.merch_req_descendants }}</span></a>
             {% elif merch_requirement.req_status = 'In Place' %}
-               <a href="./{{ merch_requirement.requirement.version }}/{{ merch_requirement.requirement.saq_req }}/{{ merch_requirement.requirement.req_number }}/" class="list-group-item list-group-item-success">{{ merch_requirement.requirement.req_number }} {{ merch_requirement.requirement.req_text }} <span class="badge">{{ merch_requirement.merch_req_chi_status }} / {{ merch_requirement.merch_req_descendants }}</span></a>
+               <a href="./{{ merch_requirement.requirement.version }}/{{ merch_requirement.merch_req_saq }}/{{ merch_requirement.requirement.req_number }}/" class="list-group-item list-group-item-success">{{ merch_requirement.requirement.req_number }} {{ merch_requirement.requirement.req_text }} <span class="badge">{{ merch_requirement.merch_req_chi_status }} / {{ merch_requirement.merch_req_descendants }}</span></a>
             
             {% endif %}
     {% endif %}
