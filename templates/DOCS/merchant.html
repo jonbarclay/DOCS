@@ -45,11 +45,47 @@
 {% for merch_requirement in merchant.merch_requirement_set.all %}
     {% if merch_requirement.requirement.parent_req = None %}
             {% if merch_requirement.req_status = 'Not In Place' %}
-               <a href="./{{ merch_requirement.requirement.version }}/{{ merch_requirement.merch_req_saq }}/{{ merch_requirement.requirement.req_number }}/" class="list-group-item list-group-item-danger">{{ merch_requirement.requirement.req_number }} {{ merch_requirement.requirement.req_text }} <span class="badge">{{ merch_requirement.merch_req_chi_status }} / {{ merch_requirement.merch_req_descendants }}</span></a>
+               <a href="./{{ merch_requirement.requirement.version }}/{{ merch_requirement.merch_req_saq }}/{{ merch_requirement.requirement.req_number }}/" class="list-group-item list-group-item-danger">
+                   {{ merch_requirement.requirement.req_number }} {{ merch_requirement.requirement.req_text }}
+                   <div class="pull-right">
+                       {% if merch_requirement.merch_req_chi_status > 0 %}
+                            <span class="label label-success">{{ merch_requirement.merch_req_chi_status }}</span>
+                       {% endif %}
+                       {% if merch_requirement.merch_req_chi_progress > 0 %}
+                            <span class="label label-warning">{{ merch_requirement.merch_req_chi_progress }}</span>
+                       {% endif %}
+                       {% if merch_requirement.merch_req_not_in_place > 0 %}
+                            <span class="label label-danger">{{ merch_requirement.merch_req_not_in_place }}</span>
+                       {% endif %}
+                   </div></a>
             {% elif merch_requirement.req_status = 'In Progress' %}
-               <a href="./{{ merch_requirement.requirement.version }}/{{ merch_requirement.merch_req_saq }}/{{ merch_requirement.requirement.req_number }}/" class="list-group-item list-group-item-warning">{{ merch_requirement.requirement.req_number }} {{ merch_requirement.requirement.req_text }} <span class="badge">{{ merch_requirement.merch_req_chi_status }} / {{ merch_requirement.merch_req_descendants }}</span></a>
+               <a href="./{{ merch_requirement.requirement.version }}/{{ merch_requirement.merch_req_saq }}/{{ merch_requirement.requirement.req_number }}/" class="list-group-item list-group-item-warning">
+                   {{ merch_requirement.requirement.req_number }} {{ merch_requirement.requirement.req_text }}
+                   <div class="pull-right">
+                       {% if merch_requirement.merch_req_chi_status > 0 %}
+                            <span class="label label-success">{{ merch_requirement.merch_req_chi_status }}</span>
+                       {% endif %}
+                       {% if merch_requirement.merch_req_chi_progress > 0 %}
+                            <span class="label label-warning">{{ merch_requirement.merch_req_chi_progress }}</span>
+                       {% endif %}
+                       {% if merch_requirement.merch_req_not_in_place > 0 %}
+                            <span class="label label-danger">{{ merch_requirement.merch_req_not_in_place }}</span>
+                       {% endif %}
+                   </div></a>
             {% elif merch_requirement.req_status = 'In Place' %}
-               <a href="./{{ merch_requirement.requirement.version }}/{{ merch_requirement.merch_req_saq }}/{{ merch_requirement.requirement.req_number }}/" class="list-group-item list-group-item-success">{{ merch_requirement.requirement.req_number }} {{ merch_requirement.requirement.req_text }} <span class="badge">{{ merch_requirement.merch_req_chi_status }} / {{ merch_requirement.merch_req_descendants }}</span></a>
+               <a href="./{{ merch_requirement.requirement.version }}/{{ merch_requirement.merch_req_saq }}/{{ merch_requirement.requirement.req_number }}/" class="list-group-item list-group-item-success">
+                   {{ merch_requirement.requirement.req_number }} {{ merch_requirement.requirement.req_text }}
+                   <div class="pull-right">
+                       {% if merch_requirement.merch_req_chi_status > 0 %}
+                            <span class="label label-success">{{ merch_requirement.merch_req_chi_status }}</span>
+                       {% endif %}
+                       {% if merch_requirement.merch_req_chi_progress > 0 %}
+                            <span class="label label-warning">{{ merch_requirement.merch_req_chi_progress }}</span>
+                       {% endif %}
+                       {% if merch_requirement.merch_req_not_in_place > 0 %}
+                            <span class="label label-danger">{{ merch_requirement.merch_req_not_in_place }}</span>
+                       {% endif %}
+                   </div></a>
             
             {% endif %}
     {% endif %}
