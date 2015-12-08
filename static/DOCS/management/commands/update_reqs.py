@@ -13,7 +13,6 @@ class Command(BaseCommand):
             f.save()
         for mr in Merch_Requirement.objects.all():
             print(mr)
-            mr.req_status = 'Not In Place'
             mr.save()
         self.stdout.write("Successfully updated requirements")
 
