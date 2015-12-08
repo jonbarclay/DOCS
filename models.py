@@ -404,8 +404,10 @@ class Merch_Requirement(models.Model):
                     child_progress = child_progress + 1
                 elif child_status > 0:
                     merch_req.req_status = 'In Progress'
+                    child_progress = child_progress + 1
                 elif child_status == 0 and child_status < chicount:
                     merch_req.req_status = 'In Progress'
+                    child_progress = child_progress + 1
                 else:
                     merch_req.req_status = 'Not In Place'
             else:
@@ -417,19 +419,24 @@ class Merch_Requirement(models.Model):
                             child_progress = child_progress + 1
                     elif child_status > 0:
                         merch_req.req_status = 'In Progress'
+                        child_progress = child_progress + 1
                     elif child_status == 0 and child_progress > 0:
                         merch_req.req_status = 'In Progress'
+                        child_progress = child_progress + 1
                     else:
                         merch_req.req_status = 'Not In Place'
                 else:
                     if child_status > 0:
                         merch_req.req_status = 'In Progress'
+                        child_progress = child_progress + 1
                     elif child_status == 0 and child_progress > 0:
                         merch_req.req_status = 'In Progress'
+                        child_progress = child_progress + 1
                     else:
                         merch_req.req_status = 'Not In Place'
             if child_progress > 1 and child_status == 0:
                 merch_req.req_status = 'In Progress'
+                child_progress = child_progress + 1
             self.merch_req_chi_status = child_status
             self.merch_req_chi_progress = child_progress - child_status
             self.merch_req_not_in_place = self.merch_req_descendants - self.merch_req_chi_status -self.merch_req_chi_progress
@@ -480,12 +487,16 @@ class Merch_Requirement(models.Model):
                 if test is False:
                     merch_par.req_status = 'In Place'
                     merch_par.merch_req_chi_status = child_status + 1
+                    merch_par.merch_req_chi_progress = child_progress + 1
                 else:
                     merch_par.req_status = 'In Progress'
+                    merch_par.merch_req_chi_progress = child_progress + 1
             elif merch_par.merch_req_chi_status > 0:
                 merch_par.req_status = 'In Progress'
+                merch_par.merch_req_chi_progress = child_progress + 1
             elif merch_par.merch_req_chi_progress > 0:
                 merch_par.req_status = 'In Progress'
+                merch_par.merch_req_chi_progress = child_progress + 1
             else:
                 merch_par.req_status = 'Not In Place'
 
