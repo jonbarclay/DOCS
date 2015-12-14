@@ -14,6 +14,9 @@ class Command(BaseCommand):
         for mr in Merch_Requirement.objects.all():
             print(mr)
             mr.save()
+        for tp in Testing_Procedure.objects.all():
+            print(tp)
+            tp.save()
         self.stdout.write("Successfully updated requirements")
 
 

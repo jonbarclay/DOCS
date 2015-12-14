@@ -75,7 +75,7 @@
 {% for merch_child_req in merch_req_children.all %}
     {% if merch_child_req.requirement.req_descendants > 1 %}
         {% if merch_child_req.req_status = 'Not In Place' %}
-           <a href="../{{ merch_child_req.requirement.req_number }}/" class="list-group-item list-group-item-danger">{{ merch_child_req.requirement.req_name_number|safe }}
+           <a href="../{{ merch_child_req.requirement.req_number }}/" class="list-group-item list-group-item-danger">{{ merch_child_req.requirement.req_name_number|safe }} &nbsp;&nbsp;
                <div class="pull-right">
                    {% if merch_child_req.merch_req_chi_status > 0 %}
                         <span class="label label-success">{{ merch_child_req.merch_req_chi_status }}</span>
@@ -88,7 +88,7 @@
                    {% endif %}
                </div></a>
         {% elif merch_child_req.req_status = 'In Progress' %}
-           <a href="../{{ merch_child_req.requirement.req_number }}/" class="list-group-item list-group-item-warning">{{ merch_child_req.requirement.req_name_number|safe }}
+           <a href="../{{ merch_child_req.requirement.req_number }}/" class="list-group-item list-group-item-warning">{{ merch_child_req.requirement.req_name_number|safe }} &nbsp;&nbsp;
                <div class="pull-right">
                    {% if merch_child_req.merch_req_chi_status > 0 %}
                         <span class="label label-success">{{ merch_child_req.merch_req_chi_status }}</span>
@@ -101,7 +101,7 @@
                    {% endif %}
                </div></a>
         {% elif merch_child_req.req_status = 'In Place' %}
-           <a href="../{{ merch_child_req.requirement.req_number }}/" class="list-group-item list-group-item-success">{{ merch_child_req.requirement.req_name_number|safe }}
+           <a href="../{{ merch_child_req.requirement.req_number }}/" class="list-group-item list-group-item-success">{{ merch_child_req.requirement.req_name_number|safe }} &nbsp;&nbsp;
                <div class="pull-right">
                    {% if merch_child_req.merch_req_chi_status > 0 %}
                         <span class="label label-success">{{ merch_child_req.merch_req_chi_status }}</span>
@@ -114,7 +114,7 @@
                    {% endif %}
                </div></a>
         {% elif merch_child_req.req_status = 'Not Applicable' %}
-           <a href="../{{ merch_child_req.requirement.req_number }}/" class="list-group-item list-group-item-info">{{ merch_child_req.requirement.req_name_number|safe }}
+           <a href="../{{ merch_child_req.requirement.req_number }}/" class="list-group-item list-group-item-info">{{ merch_child_req.requirement.req_name_number|safe }} &nbsp;&nbsp;
                <div class="pull-right">
                    {% if merch_child_req.merch_req_chi_status > 0 %}
                         <span class="label label-success">{{ merch_child_req.merch_req_chi_status }}</span>

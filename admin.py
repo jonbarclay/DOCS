@@ -26,7 +26,7 @@ from .models import Requirement, Testing_Procedure, Merchant, Finding, Merch_Req
 #    model = Reporting_Instruction
 #
 class Testing_ProcedureAdmin(admin.ModelAdmin):
-    list_display = ('test_number', 'test_text')
+    list_display = ('test_number', 'test_text_markdown')
 
 
     
@@ -35,13 +35,13 @@ class Testing_ProcedureAdmin(admin.ModelAdmin):
 
 class Testing_ProcedureInline(admin.TabularInline):
     model = Testing_Procedure
-    exclude = ("test_num_col1", "test_num_col2", "test_num_col3", "test_num_col4",)
+    exclude = ("reporting_instruction", "test_text", "test_num_col1", "test_num_col2", "test_num_col3", "test_num_col4",)
 
 
 class RequirementAdmin(admin.ModelAdmin):
-    list_display = ('version', 'saq_req', 'req_number', 'req_text')
+    list_display = ('version', 'saq_req', 'req_number', 'req_text_markdown')
     list_filter = ['version', 'saq_req']
-    exclude = ("req_num_col1", "req_num_col2", "req_num_col3", "req_num_col4",)
+    exclude = ("guidance_text", "req_test_summ","req_note", "req_text", "req_num_col1", "req_num_col2", "req_num_col3", "req_num_col4",)
     inlines = [Testing_ProcedureInline]
 
 class Merch_RequirementAdmin(admin.ModelAdmin):

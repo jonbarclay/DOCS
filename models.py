@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import datetime, timedelta
 from django.forms import ModelForm
+import markdown
 
 
 class SAQ(models.Model):
@@ -150,9 +151,13 @@ class Requirement(models.Model):
     req_num_col2 = models.IntegerField(blank=True, null=True)
     req_num_col3 = models.IntegerField(blank=True, null=True)
     req_num_col4 = models.IntegerField(blank=True, null=True)
-    req_text = models.TextField()
+    req_text_markdown = models.TextField()
+    req_text = models.TextField(blank=True, default=' ')
+    req_note_markdown = models.TextField(blank=True)
     req_note = models.TextField(blank=True)
+    req_test_summ_markdown = models.TextField(blank=True)
     req_test_summ = models.TextField(blank=True)
+    guidance_text_markdown = models.TextField(blank=True)
     guidance_text = models.TextField(blank=True)
     parent_req = models.ForeignKey( 'self', blank=True, null=True, related_name='child_req')
     req_descendants = models.IntegerField(blank=True, null=True, default=0)
@@ -200,6 +205,63 @@ class Requirement(models.Model):
     saq_req = models.ForeignKey(SAQ, blank=True, null=True)
 
     def save(self, *args, **kwargs):
+        r_text = markdown.markdown(self.req_text_markdown)
+        r_text1 = str.replace(r_text,'<p>','<br />')
+        r_text2 = str.replace(r_text1,'</p>','<br />')
+        r_text3 = r_text2
+        if r_text3.startswith('<br />'):
+            r_text4 = r_text3[6:]
+        else:
+            r_text4 = r_text3
+        if r_text4.endswith('<br />'):
+            r_text5 = r_text4[:-6]
+        else:
+            r_text5 = r_text4
+        self.req_text = r_text5
+
+        r_note = markdown.markdown(self.req_note_markdown)
+        r_note1 = str.replace(r_note,'<p>','<br />')
+        r_note2 = str.replace(r_note1,'</p>','<br />')
+        r_note3 = r_note2
+        if r_note3.startswith('<br />'):
+            r_note4 = r_note3[6:]
+        else:
+            r_note4 = r_note3
+        if r_note4.endswith('<br />'):
+            r_note5 = r_note4[:-6]
+        else:
+            r_note5 = r_note4
+        self.req_note = r_note5
+
+        r_test_summ = markdown.markdown(self.req_test_summ_markdown)
+        r_test_summ1 = str.replace(r_test_summ,'<p>','<br />')
+        r_test_summ2 = str.replace(r_test_summ1,'</p>','<br />')
+        r_test_summ3 = r_test_summ2
+        if r_test_summ3.startswith('<br />'):
+            r_test_summ4 = r_test_summ3[6:]
+        else:
+            r_test_summ4 = r_test_summ3
+        if r_test_summ4.endswith('<br />'):
+            r_test_summ5 = r_test_summ4[:-6]
+        else:
+            r_test_summ5 = r_test_summ4
+        self.req_test_summ = r_test_summ5
+
+        r_guidance_text = markdown.markdown(self.guidance_text_markdown)
+        r_guidance_text1 = str.replace(r_guidance_text,'<p>','<br />')
+        r_guidance_text2 = str.replace(r_guidance_text1,'</p>','<br />')
+        r_guidance_text3 = r_guidance_text2
+        if r_guidance_text3.startswith('<br />'):
+            r_guidance_text4 = r_guidance_text3[6:]
+        else:
+            r_guidance_text4 = r_guidance_text3
+        if r_guidance_text4.endswith('<br />'):
+            r_guidance_text5 = r_guidance_text4[:-6]
+        else:
+            r_guidance_text5 = r_guidance_text4
+        self.guidance_text = r_guidance_text5
+
+
         rnum = self.req_number
         rd = Requirement.objects.filter(req_number__startswith=rnum+'.').filter(saq_req=self.saq_req).filter(version=self.version)
         self.req_descendants = rd.count() + 1
@@ -273,13 +335,44 @@ class Testing_Procedure(models.Model):
     test_num_col2 = models.CharField(max_length=10, blank=True, null=True)
     test_num_col3 = models.CharField(max_length=10, blank=True, null=True)
     test_num_col4 = models.CharField(max_length=10, blank=True, null=True)
-    test_text = models.TextField()
+    test_text_markdown = models.TextField()
+    test_text = models.TextField(blank=True)
+    reporting_instruction_markdown = models.TextField(blank=True)
     reporting_instruction = models.TextField(blank=True)
 
     def __str__(self):
         return self.test_number + " " + self.test_text
 
     def save(self, *args, **kwargs):
+        t_text = markdown.markdown(self.test_text_markdown)
+        t_text1 = str.replace(t_text,'<p>','<br />')
+        t_text2 = str.replace(t_text1,'</p>','<br />')
+        t_text3 = t_text2
+        if t_text3.startswith('<br />'):
+            t_text4 = t_text3[6:]
+        else:
+            t_text4 = t_text3
+        if t_text4.endswith('<br />'):
+            t_text5 = t_text4[:-6]
+        else:
+            t_text5 = t_text4
+        self.test_text = t_text5
+
+        r_inst = markdown.markdown(self.reporting_instruction_markdown)
+        r_inst1 = str.replace(r_inst,'<p>','<br />')
+        r_inst2 = str.replace(r_inst1,'</p>','<br />')
+        r_inst3 = r_inst2
+        if r_inst3.startswith('<br />'):
+            r_inst4 = r_inst3[6:]
+        else:
+            r_inst4 = r_inst3
+        if r_inst4.endswith('<br />'):
+            r_inst5 = r_inst4[:-6]
+        else:
+            r_inst5 = r_inst4
+        self.reporting_instruction = r_inst5
+
+
         test_num_list = self.test_number.split('.')
         if len(test_num_list) > 0:
             try:
