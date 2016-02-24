@@ -25,8 +25,8 @@ def detail(request, requirement_id):
     return render(request, 'DOCS/detail.html', {'requirement': requirement})
 
 @login_required(login_url='/login/')
-def merchant(request, merchant_name):
-    merchant = get_object_or_404(Merchant, merchant_name=merchant_name)
+def merchant(request, merchant_name_URL):
+    merchant = get_object_or_404(Merchant, merchant_name_URL=merchant_name_URL)
     return render(request, 'DOCS/merchant.html', {'merchant': merchant})
 
 
@@ -35,10 +35,10 @@ class RequirementList(ListView):
     model = Requirement
     
 @login_required(login_url='/login/')   
-def merchant_requirement(request, merchant_name, version, saq_req, req_number):
+def merchant_requirement(request, merchant_name_URL, version, saq_req, req_number):
     # if this is a POST request we need to process the form data
     saq = get_object_or_404(SAQ, saq_name=saq_req, saq_version=version)
-    merchant = get_object_or_404(Merchant, merchant_name=merchant_name)
+    merchant = get_object_or_404(Merchant, merchant_name_URL=merchant_name_URL)
     req = get_object_or_404(Requirement, req_number=req_number, saq_req=saq)
     merch_requirement = get_object_or_404(Merch_Requirement, requirement=req, merchant=merchant)
     req_children = req.child_req.all()
