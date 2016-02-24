@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import datetime, timedelta
+from django.template.defaultfilters import slugify
 from django.forms import ModelForm
 import markdown
 
@@ -16,6 +17,7 @@ class SAQ(models.Model):
 
 class Merchant(models.Model):
     merchant_name = models.CharField(max_length=200)
+    merchant_name_URL = models.CharField(max_length=200)
     merch_percent = models.FloatField(null=True, blank=True, default=0)
     req_complete = models.IntegerField(blank=True, null=True, default=0)
     total_req = models.IntegerField(blank=True, null=True, default=0)
@@ -76,6 +78,10 @@ class Merchant(models.Model):
 
     def __str__(self):
         return self.merchant_name
+
+    def save(self, *args, **kwargs):
+        self.merchant_name_URL = slugify(self.merchant_name)
+        super(Merchant, self).save(*args, **kwargs) # Call the "real" save() method.
 
     class Meta:
         ordering = ["merchant_name"]
@@ -205,6 +211,7 @@ class Requirement(models.Model):
     saq_req = models.ForeignKey(SAQ, blank=True, null=True)
 
     def save(self, *args, **kwargs):
+
         r_text = markdown.markdown(self.req_text_markdown)
         r_text1 = str.replace(r_text,'<p>','<br />')
         r_text2 = str.replace(r_text1,'</p>','<br />')
