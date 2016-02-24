@@ -17,7 +17,7 @@ class SAQ(models.Model):
 
 class Merchant(models.Model):
     merchant_name = models.CharField(max_length=200)
-    merchant_name_URL = models.CharField(max_length=200)
+    merchant_name_URL = models.CharField(max_length=200, null=True, blank=True, default='')
     merch_percent = models.FloatField(null=True, blank=True, default=0)
     req_complete = models.IntegerField(blank=True, null=True, default=0)
     total_req = models.IntegerField(blank=True, null=True, default=0)
