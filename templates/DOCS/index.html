@@ -33,15 +33,15 @@
                 {% for merchant in merchant_list %}
                     {% if merchant.saq_req == saq %}
                         {% if merchant.merch_percent <= 0 %}
-                           <a href="/merchant/{{ merchant }}/" class="list-group-item list-group-item-danger"><strong>{{ merchant }}</strong>
+                           <a href="/merchant/{{ merchant.merchant_name_URL }}/" class="list-group-item list-group-item-danger"><strong>{{ merchant }}</strong>
 
                                <span class="badge">{{ merchant.req_complete }} / {{ merchant.total_req }}</span></a>
                         {% elif merchant.merch_percent < 100 %}
-                           <a href="/merchant/{{ merchant }}/"  class="list-group-item list-group-item-warning"><strong>{{ merchant }}</strong>
+                           <a href="/merchant/{{ merchant.merchant_name_URL  }}/"  class="list-group-item list-group-item-warning"><strong>{{ merchant }}</strong>
 
                                <span class="badge">{{ merchant.req_complete }} / {{ merchant.total_req }}</span></a>
                         {% else %}
-                           <a href="/merchant/{{ merchant }}/"  class="list-group-item list-group-item-success"><strong>{{ merchant }}</strong>
+                           <a href="/merchant/{{ merchant.merchant_name_URL  }}/"  class="list-group-item list-group-item-success"><strong>{{ merchant }}</strong>
 
                                <span class="badge">{{ merchant.req_complete }} / {{ merchant.total_req }}</span></a>
 

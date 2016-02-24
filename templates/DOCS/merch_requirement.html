@@ -15,17 +15,17 @@
 {% block content %}
 {% if requirement.parent_req = None %}
 <ol class="breadcrumb">
-  <li><a href="/merchant/{{ merchant }}/">{{ merchant }}</a></li>   
+  <li><a href="/merchant/{{ merchant.merchant_name_URL  }}/">{{ merchant }}</a></li>
 </ol>
 {% elif requirement.parent_req.parent_req.req_number%}
 <ol class="breadcrumb">
-  <li><a href="/merchant/{{ merchant }}/">{{ merchant }}</a></li>
+  <li><a href="/merchant/{{ merchant.merchant_name_URL  }}/">{{ merchant }}</a></li>
   <li><a href="../{{ requirement.parent_req.parent_req.req_number }}/">{{ requirement.parent_req.parent_req.req_number }}</a></li> 
   <li><a href="../{{ requirement.parent_req.req_number }}/">{{ requirement.parent_req.req_number }}</a></li>
 </ol>
 {% else %}
 <ol class="breadcrumb">
-  <li><a href="/merchant/{{ merchant }}/">{{ merchant }}</a></li>   
+  <li><a href="/merchant/{{ merchant.merchant_name_URL  }}/">{{ merchant }}</a></li>
   <li><a href="../{{ requirement.parent_req.req_number }}/">{{ requirement.parent_req.req_number }}</a></li>
 </ol>
 {% endif %}
