@@ -3,6 +3,7 @@ from django.views.generic import ListView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Group, User
 import datetime
 from django.utils import timezone
 
@@ -10,6 +11,8 @@ from django.shortcuts import render, get_object_or_404
 
 from .models import Requirement, Testing_Procedure, Merchant, Finding, Merch_Requirement, SAQ
 from .forms import NameForm
+
+users_in_group = Group.objects.get(name="group name").user_set.all()
 
 
 @login_required(login_url='/login/')
@@ -46,28 +49,30 @@ def merchant_requirement(request, merchant_name_URL, version, saq_req, req_numbe
         'merch_req_num_col1', 'merch_req_num_col2', 'merch_req_num_col3', 'merch_req_num_col4')
 
     if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
-        form = NameForm(request.POST)
-        # check whether it's valid:
-        if form.is_valid():
-            # process the data in form.cleaned_data as required
-            finding = form.cleaned_data['finding_text']
-            merch_requirement_status = form.cleaned_data['status']
-            current_user = request.user.get_full_name()
-            finding_and_status = finding + " - " + str(merch_requirement_status) + " - " + str(current_user)
-            time = timezone.now()
-            merch_requirement.req_status = str(merch_requirement_status)
-            merch_requirement.save()
-            req_find = merch_requirement.finding_set
-            req_find.create(
-                finding_text = finding,
-                finding_date = time,
-                req_status = str(merch_requirement_status),
-                user = str(current_user)
-                )
+        if User in users_in_group:
 
-            # redirect to a new URL:
-            return HttpResponseRedirect('./')
+            # create a form instance and populate it with data from the request:
+            form = NameForm(request.POST)
+            # check whether it's valid:
+            if form.is_valid():
+                # process the data in form.cleaned_data as required
+                finding = form.cleaned_data['finding_text']
+                merch_requirement_status = form.cleaned_data['status']
+                current_user = request.user.get_full_name()
+                finding_and_status = finding + " - " + str(merch_requirement_status) + " - " + str(current_user)
+                time = timezone.now()
+                merch_requirement.req_status = str(merch_requirement_status)
+                merch_requirement.save()
+                req_find = merch_requirement.finding_set
+                req_find.create(
+                    finding_text = finding,
+                    finding_date = time,
+                    req_status = str(merch_requirement_status),
+                    user = str(current_user)
+                    )
+
+                # redirect to a new URL:
+                return HttpResponseRedirect('./')
 
     # if a GET (or any other method) we'll create a blank form
     else:
