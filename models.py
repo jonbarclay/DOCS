@@ -505,7 +505,7 @@ class Merch_Requirement(models.Model):
                 elif child_status > 0:
                     merch_req.req_status = 'In Progress'
                     child_progress = child_progress + 1
-                elif child_status == 0 and child_status < chicount:
+                elif child_status == 0 and child_progress > 0:
                     merch_req.req_status = 'In Progress'
                     child_progress = child_progress + 1
                 else:
