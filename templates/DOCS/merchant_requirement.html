@@ -34,23 +34,22 @@
 </ol>
 {% endif %}
 
-<h3>{{ merch_requirement.requirement.req_name_number|safe }} </h3>
 {% if merch_requirement.req_status = 'Not In Place' %}
-    <div class="alert alert-danger" role="alert">
-             <strong>{{ merch_requirement.req_status }} </strong>
-    </div>
+<div class="alert alert-danger" role="alert">
+<h3>{{ merch_requirement.requirement.req_name_number|safe }} </h3>
+</div>
 {% elif merch_requirement.req_status  = 'In Place' %}
-    <div class="alert alert-success" role="alert">
-             <strong>{{ merch_requirement.req_status }} </strong>
-    </div>
+<div class="alert alert-success" role="alert">
+<h3>{{ merch_requirement.requirement.req_name_number|safe }} </h3>
+</div>
 {% elif merch_requirement.req_status  = 'In Progress' %}
-    <div class="alert alert-warning" role="alert">
-             <strong>{{ merch_requirement.req_status }} </strong>
-    </div>
+<div class="alert alert-warning" role="alert">
+<h3>{{ merch_requirement.requirement.req_name_number|safe }} </h3>
+</div>
 {% elif merch_requirement.req_status  = 'Not Applicable' %}
-    <div class="alert alert-info" role="alert">
-             <strong>{{ merch_requirement.req_status }} </strong>
-    </div>
+<div class="alert alert-info" role="alert">
+<h3>{{ merch_requirement.requirement.req_name_number|safe }} </h3>
+</div>
 {% endif %}
 
 {% if merch_requirement.requirement.req_note  %}
@@ -140,12 +139,12 @@
     {% endif %}
 {% endfor %}
 
-<div class="row"><p></p></div>
+<div class="row"><p> &nbsp;</p></div>
 {% for testing_procedure in merch_requirement.requirement.testing_procedure_set.all %}
-     <div class="row">
+
         <div class="panel panel-primary">
             <div class="panel-heading">
-               {{ testing_procedure|safe }}
+                {{ testing_procedure|safe }}
             
             </div>
             <div class="panel-body">
@@ -158,11 +157,10 @@
              
         </div>
         
-      </div>
+
 {% endfor %}
 {% if merch_requirement.requirement.testing_procedure_set.all  %}
-    
-         <div class="row">
+
         <div class="panel panel-default">
             <div class="panel-heading">
                    Findings:
@@ -177,8 +175,10 @@
                             {{ form.finding_text.errors }}
                             <label for="{{ form.finding_text.id_for_label }}" class="col-sm-2 control-label">Finding Text:</label>
                             <div class="col-sm-10">
-                                <textarea class="form-control" id="{{ form.finding_text.id_for_label }}" name="finding_text" rows="3"></textarea>
+                                <textarea class="form-control" rows="7" placeholder="Describe the current status of the requirement including all testing procudures done and the results of the tests." id="{{ form.finding_text.id_for_label }}" name="finding_text" rows="3"></textarea>
+
                                 </div>
+
                          </div>
                          <div class="form-group">
                             {{ form.status.errors }}
@@ -209,8 +209,7 @@
             {% endfor %}
             </div>
         </div>
-        
-      </div> 
+
     
     
 {% endif %}
